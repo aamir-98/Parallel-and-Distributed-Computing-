@@ -1,17 +1,16 @@
-from src.sequential import run_sequential
-from src.threading import run_threading
-from src.processes import run_processes
-from src.performance import compute_performance
+import sys
+sys.path.append("./src")  
+# Import the functions from src/
+import sequential
+import threading_parallel
+import multiprocessing_parallel
 
 if __name__ == "__main__":
-    print("Running Sequential Execution...")
-    run_sequential()
-
-    print("\nRunning Threading Execution...")
-    run_threading()
-
-    print("\nRunning Multiprocessing Execution...")
-    run_processes()
-
-    print("\nComputing Performance Analysis...")
-    compute_performance(sequential_time=1.5, parallel_time=0.8, num_units=2)  
+    print("\n--- Running Sequential Sum ---")
+    sequential.sequential_sum(10**7)  # Runs sequential sum
+    
+    print("\n--- Running Threaded Sum ---")
+    threading_parallel.threaded_sum(10**7)  # Runs threaded sum
+    
+    print("\n--- Running Multiprocessing Sum ---")
+    multiprocessing_parallel.multiprocessing_sum(10**7)  # Runs multiprocessing sum
