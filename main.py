@@ -1,16 +1,8 @@
-import sys
-sys.path.append("./src")  
-# Import the functions from src/
-import sequential
-import threading_parallel
-import multiprocessing_parallel
+from src import train_model
+# Run the threading-based training
+print("\n--- Running Parallel Training with Threading ---\n")
+train_model.train_threading()
 
-if __name__ == "__main__":
-    print("\n--- Running Sequential Sum ---")
-    sequential.sequential_sum(10**7)  # Runs sequential sum
-    
-    print("\n--- Running Threaded Sum ---")
-    threading_parallel.threaded_sum(10**7)  # Runs threaded sum
-    
-    print("\n--- Running Multiprocessing Sum ---")
-    multiprocessing_parallel.multiprocessing_sum(10**7)  # Runs multiprocessing sum
+# Run the multiprocessing-based training
+print("\n--- Running Parallel Training with Multiprocessing ---\n")
+train_model.train_multiprocessing()
