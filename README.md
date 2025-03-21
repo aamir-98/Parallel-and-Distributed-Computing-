@@ -1,101 +1,92 @@
-# Parallel and Distributed Computing - Assignment 1 (Part 1)
+# Genetic Algorithm for City Navigation
 
 ## Overview
-This project is part of Assignment 1 for the Parallel and Distributed Computing course (DSAI 3202). It focuses on comparing different approaches to parallel computation using Python, including **multiprocessing**, **threading**, and **semaphores**.
+This project implements a parallelized Genetic Algorithm (GA) to optimize the shortest route for a single vehicle delivering goods in a city. The algorithm minimizes the total travel distance using MPI4PY for distributed computing.
 
-The primary goal is to compute squares of large lists of numbers efficiently and compare different parallelization techniques.
+## Objectives
+- Implement a Genetic Algorithm for the Traveling Salesman Problem (TSP)
+- Optimize the route of a single vehicle
+- Parallelize computation to improve performance
 
-## Files Structure
-```
-/Parallel-and-Distributed-Computing/
-├── src/
-│   ├── __init__.py           # Package initialization
-│   ├── square.py             # Function to compute square of a number
-│   ├── sequential.py         # Sequential execution for benchmarking
-│   ├── multiprocessing.py    # Multiprocessing implementation (process-based parallelism)
-│   ├── semaphores.py         # Semaphore-based connection pool simulation
-├── main.py                   # Entry point to run the program
-├── README.md                 # Documentation file (this file)
-├── requirements.txt          # Dependencies
-```
+## Genetic Algorithm Explanation
+Genetic Algorithms are optimization techniques inspired by natural selection. The main steps include:
+1. **Initialization**: Generate a population of potential solutions (routes).
+2. **Fitness Evaluation**: Calculate the total distance of each route.
+3. **Selection**: Choose the best routes based on fitness.
+4. **Crossover**: Create new routes by combining existing ones.
+5. **Mutation**: Randomly modify routes to maintain diversity.
+6. **Elitism**: Preserve the best routes from each generation.
+7. **Termination**: Repeat the process until the algorithm converges or reaches a predefined number of generations.
 
-## Installation
-To run the project, ensure you have **Python 3.8+** installed along with the required dependencies.
+## Implementation Details
+### **1. Fitness Function**
+- The fitness function calculates the total travel distance of a given route.
+- A large penalty is applied for infeasible routes (disconnected paths).
 
-1. Clone the repository:
-   ```sh
-   cd Parallel-and-Distributed-Computing-
-   ```
-2. Create a virtual environment and activate it:
-   ```sh
-   python -m venv venv
-   source venv/bin/activate  # On Mac/Linux
-   venv\Scripts\activate     # On Windows
-   ```
-3. Install dependencies:
+### **2. Selection Method (Tournament Selection)**
+- A subset of routes is randomly chosen.
+- The best route among them is selected for reproduction.
+
+### **3. Crossover (Order Crossover)**
+- Two parent routes exchange genetic material to produce new routes.
+
+### **4. Mutation**
+- Two random cities in the route are swapped with a probability of `mutation_rate`.
+
+### **5. Parallelization with MPI4PY**
+- The genetic algorithm is distributed across multiple processes to improve efficiency.
+- Fitness evaluation, crossover, and mutation operations are parallelized using `mpi4py`.
+
+## Performance and Results
+### **Execution Time**
+- The program was executed using `mpiexec -n 4 python genetic_algorithm_trial.py`
+- The execution time was approximately **20.3 seconds**.
+- The best route found had a **total distance of 1265**.
+
+### **Comparison with Sequential Execution**
+| Approach       | Execution Time (seconds) | Best Distance |
+|---------------|-------------------------|--------------|
+| Sequential    | ~40-50                   | ~1400        |
+| Parallel (MPI)| ~20.3                     | **1265**     |
+
+## Enhancements Implemented
+1. **Adaptive Mutation Rate**: The mutation probability decreases over generations to balance exploration and exploitation.
+2. **Elitism**: Top-performing routes are preserved across generations.
+3. **Regeneration on Stagnation**: If no improvement is seen for `5` generations, the population is regenerated.
+4. **Parallelization with MPI**: Distributes fitness evaluation, selection, crossover, and mutation.
+
+## Future Improvements
+- Implement support for multiple delivery vehicles.
+- Run the program on multiple machines using AWS.
+- Explore alternative selection and mutation strategies.
+
+## How to Run the Program
+1. **Install Dependencies** (See `requirements.txt`)
    ```sh
    pip install -r requirements.txt
    ```
+2. **Run the program in parallel using MPI**:
+   ```sh
+   mpiexec -n 4 python genetic_algorithm_trial.py
+   ```
+3. **Change the distance matrix to test on an extended city**
+   ```sh
+   mv city_distances_extended.csv city_distances.csv
+   ```
 
-## Execution
-Run the `main.py` file to compare different computation methods:
-```sh
-python main.py
+## Repository Structure
+```
+/Parallel-and-Distributed-Computing
+│── ShortestRoute/
+│   ├── genetic_algorithm_trial.py   # Main script
+│   ├── genetic_algorithms_functions.py # GA helper functions
+│   ├── city_distances.csv          # Distance matrix (default)
+│   ├── city_distances_extended.csv # Extended city map
+│   ├── __init__.py                 # Package initializer
+│── README.md
+│── requirements.txt
 ```
 
-## Parallelization Methods Used
-### 1. Sequential Execution
-- Processes numbers one by one in a for-loop.
-- Baseline for performance comparison.
-
-### 2. Multiprocessing Approaches
-- **Multiprocessing (one process per chunk)**: Uses multiple **Process** instances to distribute workload.
-- **Pool.map()**: Uses a process pool to map function calls to multiple inputs.
-- **Pool.apply()**: Calls `apply()` asynchronously in multiple processes.
-- **ProcessPoolExecutor**: High-level multiprocessing using `concurrent.futures`.
-
-### 3. Semaphore-Based Connection Pool
-- Simulates a **database connection pool** with limited resources.
-- Uses `multiprocessing.Semaphore` to control access.
-
-## Expected Output
-When running `python main.py`, you should see output similar to:
-```
-=== Running Square Computations ===
-
-Sequential Execution:
-Processed 1000000 numbers.
-Time Taken: 0.0580 seconds
-
-Multiprocessing (one process per number):
-Processed 1000000 numbers.
-Time Taken: 0.0590 seconds
-
-Multiprocessing Pool (map):
-Time Taken: 1.1127 seconds
-
-Multiprocessing Pool (apply):
-Time Taken: 167.9701 seconds
-
-ProcessPoolExecutor:
-Time Taken: 106.4556 seconds
-
-=== Running Semaphore-Based Connection Pool ===
-Process 0 waiting for connection...
-Process 1 waiting for connection...
-Process 2 waiting for connection...
-Process 0 acquired Connection 0
-Process 1 acquired Connection 1
-Process 2 acquired Connection 2
-Process 3 waiting for connection...
-Process 4 waiting for connection...
-Process 3 could not acquire a connection.
-Process 2 releasing Connection 2
-Process 2 releasing Connection 2
-...
-```
-
----
-### Author: *Aamir Ahmed*
-*Parallel and Distributed Computing - DSAI 3202*
+## Thank you
+## Aamir Ahmed 
 
