@@ -1,68 +1,19 @@
-# Lab 4 - Part 2: Brain Tumor Detection Using CNN
+# Lab 6 – MPI Tasks
 
-## 📊 Overview
-This project is part of the Parallel and Distributed Computing course (DSAI 3202), Lab 4 Part 2. It applies a Convolutional Neural Network (CNN) to detect the presence of brain tumors from MRI scans.
+## Course: DSAI 3202 – Parallel and Distributed Computing  
+**Lab Title**: Message Passing Interface – MPI Tasks  
+**Lab Part**: Lab 6 – MPI Implementation  
+**Student**: Aamir Ahmed
 
-## 📂 Dataset
-- **Folder**: `data/brain_tumor_dataset`
-- **Subfolders**:
-  - `yes/`: Images with brain tumors
-  - `no/`: Images without brain tumors
+---
 
-## 📁 Project Structure
-```
-/Parallel-and-Distributed-Computing-
-|
-|➜ brain_tumor_classifier/
-|   |➜ __init__.py
-|   |➜ train.py              # Contains the main pipeline and training logic
-|   |➜ model.py              # CNN model definition
-|   |➜ data_loader.py        # Data loading and preprocessing
-|
-|➜ data/
-|   |➜ brain_tumor_dataset/   # Contains 'yes' and 'no' folders
-|
-|➜ main.py                  # Entry point to run the entire pipeline
-|
-|➜ README.md
-|➜ requirements.txt
-```
+## 🧪 Description
 
-## 🎨 Model Summary
-- **Architecture**: CNN (Sequential)
-- **Layers**: Conv2D, MaxPooling2D, Flatten, Dense
-- **Loss Function**: Binary Crossentropy
-- **Optimizer**: Adam
-- **Metrics**: Accuracy
-- **Epochs**: 10
+This lab demonstrates how to use the `mpi4py` library to parallelize two tasks using the Message Passing Interface (MPI):
 
-## 📊 Training & Evaluation Output
-```
-Epoch 1/10  - val_accuracy: 0.7024
-Epoch 5/10  - val_accuracy: 0.7651
-Epoch 10/10 - val_accuracy: 0.7651
+1. **Task 1 – Large Scale Square Computation**  
+   Calculate the squares of a large list of integers (from 1 to 1,000,000) in parallel using multiple MPI processes.
 
-              precision    recall  f1-score   support
-           0       0.73      0.62      0.67        26
-           1       0.78      0.86      0.81        51
-
-    accuracy                           0.76        77
-   macro avg       0.76      0.74      0.74        77
-weighted avg       0.76      0.76      0.76        77
-```
-
-## 🔍 Interpretation
-- The model achieved **76% accuracy** in detecting brain tumors.
-- It performs better at detecting positive (tumor-present) cases.
-- False negatives are low, which is desirable in medical imaging.
-
-## 🚀 Future Improvements
-- Add **data augmentation** to reduce overfitting.
-- Use **pre-trained models** like VGG16 or ResNet.
-- Tune hyperparameters (learning rate, batch size).
-- Add **early stopping** and model checkpointing.
-
-
-
-🙌 Project by Aamir Ahmed | DSAI 3202
+2. **Task 2 – Infection Rate Simulation**  
+   Simulate infection rate calculations for different regions using randomly generated data, distributed across MPI processes.
 

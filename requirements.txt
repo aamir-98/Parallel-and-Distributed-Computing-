@@ -1,6 +1,2 @@
-tensorflow
-opencv-python
+mpi4py
 numpy
-pandas
-scikit-learn
-matplotlib
