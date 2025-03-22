@@ -1,87 +1,68 @@
-# DSAI 3202 - Lab 4 (Part 1): Temperature Monitoring System Using Threads
+# Lab 4 - Part 2: Brain Tumor Detection Using CNN
 
-## Overview
-This lab simulates a **temperature monitoring system** using **Python threads**, where multiple sensors (threads) generate and update temperature readings at regular intervals. The program uses synchronization techniques like `Lock` and `Condition` to safely update and access shared data. Every 5 seconds, the program displays:
-- All current sensor readings
-- The average temperature of all sensors
+## 📊 Overview
+This project is part of the Parallel and Distributed Computing course (DSAI 3202), Lab 4 Part 2. It applies a Convolutional Neural Network (CNN) to detect the presence of brain tumors from MRI scans.
 
----
+## 📂 Dataset
+- **Folder**: `data/brain_tumor_dataset`
+- **Subfolders**:
+  - `yes/`: Images with brain tumors
+  - `no/`: Images without brain tumors
 
-## Objectives
-- Understand and implement **multithreading** in Python
-- Use `threading.Thread`, `Lock`, and `Condition` for thread management
-- Share data safely among threads using synchronization mechanisms
-
----
-
-## Program Structure
-
+## 📁 Project Structure
 ```
-DSAI3202_Lab4/
-├── src/
-│   ├── __init__.py
-│   └── temperature_sensor.py      # Contains the TemperatureSensor class
-└── main.py                        # Entry point that starts sensor threads and monitoring
-```
-
----
-
-## Explanation of Components
-
-### `temperature_sensor.py`
-Defines the `TemperatureSensor` class:
-- Each sensor is a thread
-- Simulates a new temperature (10-40°C) every 1-2 seconds
-- Uses locks to safely update shared dictionary `sensor_data`
-
-### `main.py`
-- Creates and starts multiple sensor threads
-- Every 5 seconds:
-  - Acquires lock
-  - Displays all sensor readings
-  - Computes and prints average temperature
-
----
-
-## Sample Output
-```
-=== Temperature Sensor Readings ===
-Sensor 1: 18.23 °C
-Sensor 2: 19.87 °C
-Sensor 3: 26.45 °C
-Sensor 4: 20.02 °C
-Sensor 5: 22.31 °C
-
-Average Temperature: 21.78 °C
+/Parallel-and-Distributed-Computing-
+|
+|➜ brain_tumor_classifier/
+|   |➜ __init__.py
+|   |➜ train.py              # Contains the main pipeline and training logic
+|   |➜ model.py              # CNN model definition
+|   |➜ data_loader.py        # Data loading and preprocessing
+|
+|➜ data/
+|   |➜ brain_tumor_dataset/   # Contains 'yes' and 'no' folders
+|
+|➜ main.py                  # Entry point to run the entire pipeline
+|
+|➜ README.md
+|➜ requirements.txt
 ```
 
----
+## 🎨 Model Summary
+- **Architecture**: CNN (Sequential)
+- **Layers**: Conv2D, MaxPooling2D, Flatten, Dense
+- **Loss Function**: Binary Crossentropy
+- **Optimizer**: Adam
+- **Metrics**: Accuracy
+- **Epochs**: 10
 
-## Synchronization Techniques Used
-- `RLock`: Allows safe simultaneous access to shared resources
-- `Condition`: Can be used for notification (not required here but optionally included)
-- `Queue`: Alternative structure used for storing sensor values (optional)
-
----
-
-## Requirements
-Use the following dependencies listed in `requirements.txt`:
+## 📊 Training & Evaluation Output
 ```
-threading
-random
-time
+Epoch 1/10  - val_accuracy: 0.7024
+Epoch 5/10  - val_accuracy: 0.7651
+Epoch 10/10 - val_accuracy: 0.7651
+
+              precision    recall  f1-score   support
+           0       0.73      0.62      0.67        26
+           1       0.78      0.86      0.81        51
+
+    accuracy                           0.76        77
+   macro avg       0.76      0.74      0.74        77
+weighted avg       0.76      0.76      0.76        77
 ```
----
 
-## Key Learnings
-- Built a concurrent sensor system with threads
-- Practiced shared data management and synchronization
-- Gained practical experience simulating real-time systems using Python concurrency tools
+## 🔍 Interpretation
+- The model achieved **76% accuracy** in detecting brain tumors.
+- It performs better at detecting positive (tumor-present) cases.
+- False negatives are low, which is desirable in medical imaging.
 
----
+## 🚀 Future Improvements
+- Add **data augmentation** to reduce overfitting.
+- Use **pre-trained models** like VGG16 or ResNet.
+- Tune hyperparameters (learning rate, batch size).
+- Add **early stopping** and model checkpointing.
 
-## Author
-- **Aamir Ahmed**  
-Course: **DSAI 3202 - Parallel and Distributed Computing**
-Lab 4 - Part 1
+
+
+🙌 Project by Aamir Ahmed | DSAI 3202
 
