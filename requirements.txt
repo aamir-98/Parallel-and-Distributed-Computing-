@@ -1,2 +1,4 @@
-mpi4py
+pygame
+matplotlib 
+pandas
 numpy
