@@ -1,6 +1,4 @@
-# DSAI3202  
-## Work Environment for the Parallel and Distributed Computing Course
-
+# DSAI3202  - Parallel and Ditributed Computing
 ---
 
 ## Question 1: Overview of the Automated Maze Explorer
